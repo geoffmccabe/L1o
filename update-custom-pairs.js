@@ -1,4 +1,3 @@
-```javascript
 import { ethers } from 'ethers';
 
 const lamina1Rpc = process.env.LAMINA1_RPC;
@@ -25,4 +24,3 @@ export default async function handler(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
-```
