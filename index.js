@@ -8,15 +8,17 @@ export default function Home() {
   useEffect(() => {
     async function fetchPrices() {
       try {
-        const response = await axios.get('/api/update-token-prices');
-        const ethResponse = await axios.get('/api/scrape-pyth');
+        const [tokenPrices, ethPrices] = await Promise.all([
+          axios.get('/api/update-token-prices'),
+          axios.get('/api/scrape-pyth')
+        ]);
         setPrices({
-          l1Usd: response.data.l1PriceUsd,
-          l1Krw: response.data.l1PriceKrw,
-          avaxUsd: response.data.avaxPriceUsd,
-          avaxKrw: response.data.avaxPriceKrw,
-          ethUsd: ethResponse.data.priceUsd,
-          ethKrw: ethResponse.data.priceKrw
+          l1Usd: tokenPrices.data.l1PriceUsd,
+          l1Krw: tokenPrices.data.l1PriceKrw,
+          avaxUsd: tokenPrices.data.avaxPriceUsd,
+          avaxKrw: tokenPrices.data.avaxPriceKrw,
+          ethUsd: ethPrices.data.priceUsd,
+          ethKrw: ethPrices.data.priceKrw
         });
       } catch (error) {
         console.error(error);
